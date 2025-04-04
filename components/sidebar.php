@@ -74,7 +74,7 @@
                 <ul>
                     <li class="py-2 px-4 bg-purple-50 hover:bg-purple-100 rounded-3xl">
                         <a
-                            href="<?= WEBROOT ?>?controllers=client&page=dashboard"
+                            href="<?= WEBROOT ?>?controllers=etudiant&page=dashboard"
                             class="font-medium gap-3 flex items-center">
                             <i class="ri-home-3-line text-lg"></i>
                             <span>Dashboard</span>

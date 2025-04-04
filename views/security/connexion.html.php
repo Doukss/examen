@@ -12,9 +12,17 @@ unset($_SESSION["errors"], $_SESSION["email"]);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - Gestion des Inscriptions Scolaires</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .login-bg {
+            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen bg-no-repeat;background-size: 20%;">
+<body class="login-bg min-h-screen flex items-center justify-center p-4 ;">
    
     <div class="w-full max-w-md p-8 border-r-4 border-green-400 rounded-md shadow-md space-y-6 bg-white bg-opacity-80">
         <h2 class="text-2xl font-bold text-center text-blue-700">Connexion à la plateforme</h2>

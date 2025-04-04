@@ -40,5 +40,33 @@ function countClasses() {
     }
 }
 
-
+function searchClasses($searchTerm, $limit = null, $offset = null) {
+    $pdo = connectDB();
+    
+    $sql = "SELECT * FROM classe 
+            WHERE libelle LIKE ? 
+            OR filiere LIKE ? 
+            OR niveau LIKE ?";
+    
+    $params = [
+        '%' . $searchTerm . '%',
+        '%' . $searchTerm . '%', 
+        '%' . $searchTerm . '%'
+    ];
+    
+    if ($limit !== null) {
+        $sql .= " LIMIT ? OFFSET ?";
+        $params[] = $limit;
+        $params[] = $offset;
+    }
+    
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Erreur de recherche: " . $e->getMessage());
+        return [];
+    }
+}
 

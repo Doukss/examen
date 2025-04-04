@@ -1,30 +1,46 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Classes</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
+
     <main class="p-6">
         
         <div class="shadow-md border border-gray-200 p-4 rounded-md mb-6">
             <h1 class="text-3xl font-bold text-gray-700 text-center mb-6">LISTE DES CLASSES</h1>
 
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                <div class="relative w-full sm:w-64">
+                <div class="relative w-full sm:w-64 flex">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <input 
-                        type="text" 
-                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                        placeholder="Rechercher..."
-                        disabled
-                        title="Fonctionnalité de recherche non implémentée en version statique">
+                    <!-- Remplacer votre champ de recherche actuel par : -->
+<form method="get" action="?page=classes" class="flex gap-2">
+    <input type="hidden" name="page" value="classes">
+    
+    <div class="relative flex-grow">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <input 
+            type="text" 
+            name="search"
+            value="<?= htmlspecialchars($searchTerm ?? '') ?>"
+            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+            placeholder="Rechercher par, filière ou niveau">
+    </div>
+    
+    <button type="submit" class="bg-green-700 hover:bg-green-800 w-12 rounded text-white p-2 flex items-center justify-center transition-colors">
+    <i class="ri-search-line"></i>
+    </button>
+    
+    <?php if (!empty($searchTerm)): ?>
+        <a href="?page=classes" class="bg-gray-200 hover:bg-gray-300 w-12 rounded text-gray-700 p-2 flex items-center justify-center transition-colors" title="Réinitialiser">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </a>
+    <?php endif; ?>
+</form>
                 </div>
 
                 <a href="#addModal" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 text-center">
@@ -40,7 +56,7 @@
                     <?php foreach ($classe as $class): ?>
                         <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
     <!-- En-tête avec fond coloré -->
-    <div class="bg-white rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1)] overflow-hidden group transition-all duration-300 hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.15)]">
+    <div class="bg-white rounded-2xl  border border-gray-200 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1)] overflow-hidden group transition-all duration-300 hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.15)]">
     <!-- Badge statut -->
     <div class="absolute top-4 right-4 z-10">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
@@ -50,19 +66,19 @@
     </div>
 
     <!-- Visual header -->
-    <div class="relative h-24 bg-gradient-to-br from-green-800 to-gray-900 flex items-end">
-        <!-- <div class="absolute inset-0 bg-[url('https://patternico.com/patterns/svg/pattern-1.svg')] opacity-10"></div> -->
+    <div class="relative flex items-end">
+        <div class="absolute inset-0 bg-[url('https://patternico.com/patterns/svg/pattern-1.svg')] opacity-10"></div>
         <div class="relative p-4 w-full">
-            <h3 class="text-xl font-bold text-white drop-shadow-md"><?= htmlspecialchars($class['libelle']) ?></h3>
-            <p class="text-indigo-100 text-sm font-medium">ID: <?= htmlspecialchars($class['id']) ?></p>
+            <h3 class="text-xl font-bold text-gray-600 drop-shadow-md"><?= htmlspecialchars($class['libelle']) ?></h3>
+            <p class="text-blue-300 text-sm font-medium">ID: <?= htmlspecialchars($class['id']) ?></p>
         </div>
     </div>
 
     <!-- Corps -->
     <div class="p-5">
         <!-- Meta données -->
-        <div class="grid grid-cols-2 gap-4 mb-5">
-            <div class="space-y-1">
+        <div class="grid grid-cols-2 gap-4 mb-5 ">
+            <div class="space-y-1 ">
                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Filière</p>
                 <div class="flex items-center">
                     <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,12 +106,11 @@
                 <span>25/30</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-orange-600 h-2 rounded-full" style="width: 83%"></div>
+                <div class=" bg-gradient-to-br from-green-600 to-red-500 h-2 rounded-full" style="width: 83%"></div>
             </div>
         </div>
 
-        <!-- Actions -->
-        <div class="flex justify-between border-t border-gray-100 pt-4">
+        <div class="flex justify-between border-t border-gray-300 pt-4">
             <button class="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -146,5 +161,4 @@
 
         </div>
     </main>
-</body>
-</html>
+

@@ -2,6 +2,10 @@
 verifyUserAuth();
 require_once "../models/rp.model.php";
 require_once "../models/class.model.php";
+require_once "../models/profs.model.php";
+require_once "../models/cour.model.php";
+
+
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 $role = $_SESSION["user"]["role_name"];
 $data = ["role" => $role, "page" => $page];
@@ -17,8 +21,45 @@ switch ($page) {
         break;
     
     case 'professeurs':
-        renderView("administrateur/professeur", $data, "dashboard");
-        break;
+        $professeur = getAllProfesseurs(); 
+        // dd($professeur);
+
+        $data = [
+            "role" => $role,
+            "page" => $page,
+            "professeur" => is_array($professeur) ? $professeur : []
+        ];
+            $searchTerm = $_GET['search'] ?? '';
+    
+    // Pagination
+    $limit = 6;
+    $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+    if ($currentPage < 1) $currentPage = 1;
+    $offset = ($currentPage - 1) * $limit;
+    
+    // Récupérer les données
+    if (!empty($searchTerm)) {
+        $professeur = searchProfesseurs($searchTerm, $limit, $offset);
+        $totalProfesseurs = count(searchProfesseurs($searchTerm)); // Total avec recherche
+    } else {
+        $professeur = getAllProfesseurs($limit, $offset);
+        $totalProfesseurs = countProfesseurs();
+    }
+            $totalPages = ceil($totalProfesseurs / $limit);
+        
+            // Passer les données à la vue
+            $data = [
+                "role" => $role,
+                "page" => $page,
+                "currentPage" => $currentPage,
+                "totalPages" => $totalPages,
+                "professeur" => is_array($professeur) ? $professeur : [],
+                "searchTerm" => $searchTerm // Ajout dans les données envoyées à la vue
+            ];
+        
+            renderView("administrateur/professeur", $data, "dashboard");
+            break;
+        
     case 'classes':
         $classe = getAllClasses(); 
         // dd($classe); 
@@ -28,31 +69,46 @@ switch ($page) {
             "page" => $page,
             "classe" => is_array($classe) ? $classe : []
         ];
-        // Définition du nombre d'éléments par page
-        $limit = 6;
-
-    // Récupérer la page actuelle de la pagination depuis l'URL (`p`)
-    $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
-    if ($currentPage < 1) $currentPage = 1;
-
-    // Calcul de l'offset
-    $offset = ($currentPage - 1) * $limit;
-
-    $classe = getAllClasses($limit, $offset);
-
-    $totalClasses = countClasses();
-    $totalPages = ceil($totalClasses / $limit);
-
-    $data = [
-        "role" => $role,
-        "page" => $page,  
-        "currentPage" => $currentPage, 
-        "totalPages" => $totalPages,
-        "classe" => is_array($classe) ? $classe : []
-    ];
+        // Récupérer le terme de recherche
+        $searchTerm = $_GET['search'] ?? '';
+    
+        // Pagination
+          $limit = 6;
+          $currentPage = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+          if ($currentPage < 1) $currentPage = 1;
+          $offset = ($currentPage - 1) * $limit;
+    
+         // Récupérer les données
+         if (!empty($searchTerm)) {
+         $classe = searchClasses($searchTerm, $limit, $offset);
+         $totalClasses = count(searchClasses($searchTerm)); // Total avec recherche
+         } else {
+         $classe = getAllClasses($limit, $offset);
+         $totalClasses = countClasses();
+         }
+    
+         $totalPages = ceil($totalClasses / $limit);
+    
+         $data = [
+          "role" => $role,
+          "page" => $page,
+          "currentPage" => $currentPage,
+          "totalPages" => $totalPages,
+          "classe" => $classe,
+         "searchTerm" => $searchTerm
+         ];
+    
     renderView("administrateur/classe", $data, "dashboard");
     break;
     case 'cours':
+        $cours = getAllCours(); 
+// dd($cours);
+        $data = [
+            "role" => $role,
+            "page" => $page,
+            "cours" => is_array($cours) ? $cours : []
+        ];
+        // 
         renderView("administrateur/cours", $data, "dashboard");
         break;
     case 'filieres':
