@@ -1,11 +1,9 @@
 <?php
 require_once __DIR__.'/../data/db.php';
 
-function getAllClasses(int $limit = 6, int $offset = 0) {  
-    $pdo = connectDB();
-    
+function getAllClasses(int $limit = 6, int $offset = 0) {      
     try {
-        $stmt = $pdo->prepare("
+        $sql = "
             SELECT 
                 c.*,  
                 f.libelle AS filiere,  
@@ -13,14 +11,11 @@ function getAllClasses(int $limit = 6, int $offset = 0) {
             FROM classe c
             LEFT JOIN filiere f ON c.filiere_id = f.id
             LEFT JOIN niveau n ON c.niveau_id = n.id
-            LIMIT :limit OFFSET :offset
-        ");
+            LIMIT ? OFFSET ?;
+        ";
         
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        return fetchResult($sql,[$limit,$offset]); // Ici, on garde l'ordre correct
         
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log("Erreur dans getAllClasses: " . $e->getMessage());
         return [];
@@ -40,33 +35,35 @@ function countClasses() {
     }
 }
 
-function searchClasses($searchTerm, $limit = null, $offset = null) {
-    $pdo = connectDB();
+function searchClasses($searchTerm) {
     
-    $sql = "SELECT * FROM classe 
-            WHERE libelle LIKE ? 
-            OR filiere LIKE ? 
-            OR niveau LIKE ?";
+    $sql = "SELECT 
+                c.*,  
+                f.libelle AS filiere,  
+                n.libelle AS niveau  
+            FROM classe c
+             JOIN filiere f ON c.filiere_id = f.id
+             JOIN niveau n ON c.niveau_id = n.id
+            WHERE C.libelle LIKE ?";
     
     $params = [
         '%' . $searchTerm . '%',
-        '%' . $searchTerm . '%', 
-        '%' . $searchTerm . '%'
     ];
     
-    if ($limit !== null) {
-        $sql .= " LIMIT ? OFFSET ?";
-        $params[] = $limit;
-        $params[] = $offset;
-    }
-    
     try {
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return fetchResult($sql,[$searchTerm]);
     } catch (PDOException $e) {
         error_log("Erreur de recherche: " . $e->getMessage());
         return [];
+    }
+}
+
+function deleteClass($id) {
+    $sql = "DELETE FROM cours WHERE classe_id = ?";
+    $isdelete = executeQuery($sql,[$id]);
+    if ($isdelete) {
+        $sql1= "DELETE FROM classe WHERE id = ?";
+        return executeQuery($sql1,[$id]);
     }
 }
 

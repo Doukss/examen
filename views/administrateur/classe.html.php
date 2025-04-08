@@ -1,6 +1,4 @@
-
-    <main class="p-6">
-        
+<main class="p-6">    
         <div class="shadow-md border border-gray-200 p-4 rounded-md mb-6">
             <h1 class="text-3xl font-bold text-gray-700 text-center mb-6">LISTE DES CLASSES</h1>
 
@@ -12,7 +10,8 @@
                         </svg>
                     </div>
                     <!-- Remplacer votre champ de recherche actuel par : -->
-<form method="get" action="?page=classes" class="flex gap-2">
+<form method="get" class="flex gap-2">
+    <input type="hidden" name="controller" value="rp">
     <input type="hidden" name="page" value="classes">
     
     <div class="relative flex-grow">
@@ -34,7 +33,7 @@
     </button>
     
     <?php if (!empty($searchTerm)): ?>
-        <a href="?page=classes" class="bg-gray-200 hover:bg-gray-300 w-12 rounded text-gray-700 p-2 flex items-center justify-center transition-colors" title="Réinitialiser">
+        <a href="?controller=rp&page=classes" class="bg-gray-200 hover:bg-gray-300 w-12 rounded text-gray-700 p-2 flex items-center justify-center transition-colors" title="Réinitialiser">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
             </svg>
@@ -43,9 +42,9 @@
 </form>
                 </div>
 
-                <a href="#addModal" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 text-center">
+                <button class="btn w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 text-center" onclick="my_modal_1.showModal()">
                     + Nouveau
-                </a>
+                </button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -125,11 +124,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
                 </a>
-                <a href="delete.php?id=<?= $class['id'] ?>" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors" title="Supprimer" onclick="return confirm('Supprimer cette classe ?')">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
+                <a href="?controller=rp&page=classes&action=delete&id=<?= $class['id'] ?>" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors" title="Supprimer" onclick="return confirm('Voulez vous supprimer cette classe ?')">
+                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                   </svg>
                 </a>
+
             </div>
         </div>
     </div>
@@ -160,5 +160,60 @@
 
 
         </div>
+
+
+
+<!-- Open the modal using ID.showModal() method -->
+<dialog id="my_modal_1" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold text-center">Ajouter une classe</h3>
+    <p class="py-4">Press ESC key or click the button below to close</p>
+    <div class="modal-action">
+      <form method="dialog">
+      <div>
+            <label for="libelle" class="block text-sm font-medium text-gray-700 mb-1">Libellé de la classe</label>
+            <input type="text" id="libelle" name="libelle" 
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                   placeholder="Ex: 1ère Année" required>
+        </div>
+
+        <!-- Sélection de la filière -->
+        <div>
+            <label for="filiere_id" class="block text-sm font-medium text-gray-700 mb-1">Filière</label>
+            <select id="filiere_id" name="filiere_id" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Sélectionnez une filière</option>
+                <?php foreach ($filieres as $filiere): ?>
+                    <option value="<?= $filiere['id'] ?>"><?= htmlspecialchars($filiere['libelle']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <!-- Sélection du niveau -->
+        <div>
+            <label for="niveau" class="block text-sm font-medium text-gray-700 mb-1">Niveau</label>
+            <select id="niveau" name="niveau" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Sélectionnez un niveau</option>
+                <option value="1">1ère Année</option>
+                <option value="2">2ème Année</option>
+                <option value="3">3ème Année</option>
+                <option value="4">4ème Année</option>
+                <option value="5">5ème Année</option>
+            </select>
+        </div>
+        <div class="flex justify">
+           <button class="btn">Annuler</button>
+           <button class="btn">Valider</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+
+
+
+
     </main>
 

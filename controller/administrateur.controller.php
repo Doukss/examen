@@ -1,9 +1,9 @@
 <?php
 verifyUserAuth();
-require_once "../models/rp.model.php";
-require_once "../models/class.model.php";
-require_once "../models/profs.model.php";
-require_once "../models/cour.model.php";
+require_once "../boostrap/required.php";
+
+
+
 
 
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
@@ -62,13 +62,13 @@ switch ($page) {
         
     case 'classes':
         $classe = getAllClasses(); 
-        // dd($classe); 
 
         $data = [
             "role" => $role,
             "page" => $page,
             "classe" => is_array($classe) ? $classe : []
         ];
+
         // Récupérer le terme de recherche
         $searchTerm = $_GET['search'] ?? '';
     
@@ -80,11 +80,18 @@ switch ($page) {
     
          // Récupérer les données
          if (!empty($searchTerm)) {
-         $classe = searchClasses($searchTerm, $limit, $offset);
+         $classe = searchClasses($searchTerm);
          $totalClasses = count(searchClasses($searchTerm)); // Total avec recherche
          } else {
          $classe = getAllClasses($limit, $offset);
          $totalClasses = countClasses();
+         }
+
+         if(isset($_GET["action"])){
+            if($_GET["action"] == "delete"){
+                deleteClass($_GET["id"]);
+                header("Location: ?controller=rp&page=classes");
+            }
          }
     
          $totalPages = ceil($totalClasses / $limit);
@@ -112,8 +119,24 @@ switch ($page) {
         renderView("administrateur/cours", $data, "dashboard");
         break;
     case 'filieres':
-        renderView("administrateur/filiere", $data, "dashboard");
-        break;
+            // Récupération de la liste des filières avec un éventuel filtre
+            $search = $_GET['search'] ?? '';
+            $filiere = getAllFilieres($search);
+        
+            // Vérifier si un ID de modification est présent
+            $filiereEdit = isset($_GET['edit']) ? getFiliereById($_GET['edit']) : null;
+        
+            // Envoyer les données à la vue
+            $data = [
+                "role" => $role,
+                "page" => $page,
+                "filiere" => $filiere,  // Liste complète
+                "filiereEdit" => $filiereEdit // Données d'une filière en édition
+            ];
+        
+            renderView("administrateur/filiere", $data, "dashboard");
+            break;
+        
     case 'niveau':
         renderView("administrateur/niveau", $data, "dashboard");
         break;
