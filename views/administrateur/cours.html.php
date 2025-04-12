@@ -1,10 +1,4 @@
-<?php
-// Supposons que $modules, $professeurs, $classes et $cours soient extraits de la base de données
-$modules = ["Programmation", "Base de données", "Réseaux"];
-$professeurs = $data['professeurs'] ?? [];
-$classes = $data['classes'] ?? [];
-$cours = $data['cours'] ?? [];
-?>
+
 
 <main class="bg-gray-50 min-h-screen p-6">
     <div class="max-w-7xl mx-auto">
@@ -50,7 +44,7 @@ $cours = $data['cours'] ?? [];
                             <label class="block text-sm font-medium text-gray-700 mb-1">Professeur</label>
                             <select name="professeur_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un professeur</option>
-                                <?php foreach ($professeurs as $prof) : ?>
+                                <?php foreach ($professeur as $prof) : ?>
                                     <option value="<?= $prof['id'] ?>"><?= $prof['nom'] ?> <?= $prof['prenom'] ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -59,8 +53,8 @@ $cours = $data['cours'] ?? [];
                             <label class="block text-sm font-medium text-gray-700 mb-1">Classe</label>
                             <select name="classe_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner une classe</option>
-                                <?php foreach ($classes as $classe) : ?>
-                                    <option value="<?= $classe['id'] ?>"><?= $classe['nom'] ?></option>
+                                <?php foreach ($classe as $class) : ?>
+                                    <option value="<?= $class['id'] ?>"><?= $class['nom'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

@@ -2,11 +2,9 @@
 require_once __DIR__.'/../data/db.php';
 
 function getAllCours() {  
-    $pdo = connectDB();
     
     try {
-        $stmt = $pdo->prepare("
-            SELECT 
+        $sql = "SELECT 
                 c.id, 
                 c.date_cours,  
                 c.heure_debut, 
@@ -16,11 +14,10 @@ function getAllCours() {
                 c.professeur_id, 
                 c.classe_id
             FROM cours c
-        ");
+        ";
         
-        $stmt->execute();
         
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return fetchResult($sql);
     } catch (PDOException $e) {
         die("Erreur dans getAllCours: " . $e->getMessage());
     }

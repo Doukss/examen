@@ -108,12 +108,11 @@ switch ($page) {
     renderView("administrateur/classe", $data, "dashboard");
     break;
     case 'cours':
-        $cours = getAllCours(); 
-// dd($cours);
+        $cours = getAllCours();
         $data = [
             "role" => $role,
             "page" => $page,
-            "cours" => is_array($cours) ? $cours : []
+            "cours" =>  $cours
         ];
         // 
         renderView("administrateur/cours", $data, "dashboard");
