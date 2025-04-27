@@ -23,11 +23,36 @@ function determineParamType(mixed $value): int
 
 function bindParams(PDOStatement $stmt, array $params): void
 {
-    $paramIndex = 1;
-    foreach ($params as $value) {
-        $paramType = determineParamType($value);
-        $stmt->bindValue($paramIndex, $value, $paramType);
-        $paramIndex++;
+    $isNamed = false;
+
+    // Vérifie si les clés sont nommées (ex: ":email")
+    foreach (array_keys($params) as $key) {
+        if (is_string($key)) {
+            $isNamed = true;
+            break;
+        }
+    }
+
+    if ($isNamed) {
+        // 🔗 Liaison des paramètres nommés
+        foreach ($params as $key => $value) {
+            $paramType = determineParamType($value);
+
+            // S'assure que le paramètre commence par ":"
+            if ($key[0] !== ':') {
+                $key = ':' . $key;
+            }
+
+            $stmt->bindValue($key, $value, $paramType);
+        }
+    } else {
+        // 🔗 Liaison des paramètres positionnels (?)
+        $index = 1;
+        foreach ($params as $value) {
+            $paramType = determineParamType($value);
+            $stmt->bindValue($index, $value, $paramType);
+            $index++;
+        }
     }
 }
 

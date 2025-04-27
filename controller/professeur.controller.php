@@ -1,5 +1,6 @@
 <?php
 verifyUserAuth();
+require_once "../boostrap/required.php";
 
 $page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
 

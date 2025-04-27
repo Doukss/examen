@@ -15,23 +15,23 @@
                 <form method="POST" action="ajouter_cours.php" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Date du cours</label>
-                        <input type="date" name="date_cours" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="date" name="date_cours"  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Heure début</label>
-                            <input type="time" name="heure_debut" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="time" name="heure_debut" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Heure fin</label>
-                            <input type="time" name="heure_fin" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="time" name="heure_fin" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Module</label>
-                        <select name="module" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <select name="module"  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Sélectionner un module</option>
                             <?php foreach ($modules as $module) : ?>
                                 <option value="<?= $module ?>"><?= $module ?></option>
@@ -42,19 +42,19 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Professeur</label>
-                            <select name="professeur_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <select name="professeur_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un professeur</option>
                                 <?php foreach ($professeur as $prof) : ?>
-                                    <option value="<?= $prof['id'] ?>"><?= $prof['nom'] ?> <?= $prof['prenom'] ?></option>
+                                    <option value=""><?= $prof['nom'] ?> <?= $prof['prenom'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Classe</label>
-                            <select name="classe_id" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <select name="classe_id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner une classe</option>
                                 <?php foreach ($classe as $class) : ?>
-                                    <option value="<?= $class['id'] ?>"><?= $class['nom'] ?></option>
+                                    <option value=""><?= $class['libelle'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

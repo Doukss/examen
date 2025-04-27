@@ -1,3 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.1/daisyui.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.min.css"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Itim&display=swap"
+        rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body class="">
+    
 <div
     id="sidebar"
     class="flex flex-col justify-between p-3 fixed left-0 shadow-md h-full text-white bg-gray-900 w-64 lg:w-52 md:flex transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 z-50">
@@ -11,7 +33,6 @@
                 <i class="ri-layout-right-line text-lg font-semibold"></i>
             </div>
         </div>
-        <?php if ($role === "rp"): ?>
             <nav>
                 <ul>
                     <li class="py-2 px-4 <?= $page === 'dashboard' ? 'bg-orange-600 text-white shadow' : 'hover:bg-gray-700' ?> rounded-3xl">
@@ -48,62 +69,6 @@
                     </li>
                 </ul>
             </nav>
-        <?php elseif ($role === "professeur"): ?>
-            <nav>
-                <ul>
-                    <li class="py-2 px-4 bg-purple-50 hover:bg-purple-100 rounded-3xl">
-                        <a
-                            href="<?= WEBROOT ?>?controllers=client&page=dashboard"
-                            class="font-medium gap-3 flex items-center">
-                            <i class="ri-home-3-line text-lg"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="py-2 px-4 bg-purple-50 hover:bg-purple-100 rounded-3xl">
-                        <a
-                            href="<?= WEBROOT ?>?controllers=client&page=dashboard"
-                            class="font-medium gap-3 flex items-center">
-                            <i class="ri-home-3-line text-lg"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="py-2 px-4 bg-purple-50 hover:bg-purple-100 rounded-3xl">
-                        <a
-                            href="<?= WEBROOT ?>?controllers=client&page=dashboard"
-                            class="font-medium gap-3 flex items-center">
-                            <i class="ri-home-3-line text-lg"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        <?php elseif ($role === "etudiant"): ?>
-            <nav>
-                <ul>
-                    <li class="py-2 px-4 bg-purple-50 hover:bg-purple-100 rounded-3xl">
-                        <a
-                            href="<?= WEBROOT ?>?controllers=etudiant&page=dashboard"
-                            class="font-medium gap-3 flex items-center">
-                            <i class="ri-home-3-line text-lg"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        <?php elseif ($role === "attache"): ?>
-            <nav>
-                <ul>
-                    <li class="py-2 px-4 bg-purple-50 hover:bg-purple-100 rounded-3xl">
-                        <a
-                            href="<?= WEBROOT ?>?controllers=client&page=dashboard"
-                            class="font-medium gap-3 flex items-center">
-                            <i class="ri-home-3-line text-lg"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        <?php endif; ?>
     </div>
     <a href="<?= WEBROOT ?>controllers=security&page=deconnexion">
         <button
@@ -112,4 +77,9 @@
             <i class="ri-logout-box-line"></i>
         </button>
     </a>
-</div>
+    </div>
+
+    <script src="javascript/security.js"></script>
+</body>
+
+</html>

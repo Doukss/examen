@@ -24,7 +24,7 @@ unset($_SESSION["errors"], $_SESSION["email"]);
 
 <body class="login-bg min-h-screen flex items-center justify-center p-4 ;">
    
-    <div class="w-full max-w-md p-8 border-r-4 border-green-400 rounded-md shadow-md space-y-6 bg-white bg-opacity-80">
+    <div class="w-full max-w-md p-8 border-r-4 border-green-400 rounded-md shadow-md space-y-6 bg-white bg-opacity-80 ">
         <h2 class="text-2xl font-bold text-center text-blue-700">Connexion à la plateforme</h2>
         <p class="text-sm text-center text-gray-600">Accédez à votre espace de gestion des inscriptions scolaires</p>
         <form class="space-y-4" method="post">

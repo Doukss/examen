@@ -1,219 +1,225 @@
-<main class="p-6">    
-        <div class="shadow-md border border-gray-200 p-4 rounded-md mb-6">
-            <h1 class="text-3xl font-bold text-gray-700 text-center mb-6">LISTE DES CLASSES</h1>
-
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                <div class="relative w-full sm:w-64 flex">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <!-- Remplacer votre champ de recherche actuel par : -->
-<form method="get" class="flex gap-2">
-    <input type="hidden" name="controller" value="rp">
-    <input type="hidden" name="page" value="classes">
-    
-    <div class="relative flex-grow">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-            </svg>
+<main class="p-6 bg-gray-50 min-h-screen">
+    <!-- Carte principale -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <!-- En-tête -->
+        <div class="bg-gradient-to-r from-gray-200 to-gray-900 px-6 py-4">
+            <h1 class="text-2xl font-bold text-white text-center">GESTION DES CLASSES</h1>
         </div>
-        <input 
-            type="text" 
-            name="search"
-            value="<?= htmlspecialchars($searchTerm ?? '') ?>"
-            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-            placeholder="Rechercher par, filière ou niveau">
+        
+        <div class="p-6">
+            <!-- Barre de recherche et bouton -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+                <!-- Formulaire de recherche amélioré -->
+                <form method="get" class="w-full md:w-auto flex-1">
+                    <input type="hidden" name="controller" value="rp">
+                    <input type="hidden" name="page" value="classes">
+                    
+                    <div class="relative flex items-center">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            name="search"
+                            value="<?= htmlspecialchars($searchTerm ?? '') ?>"
+                            class="block w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                            placeholder="Rechercher une classe...">
+                        
+                        <div class="absolute right-0 flex items-center pr-2">
+                            <?php if (!empty($searchTerm)): ?>
+                                <a href="?controller=rp&page=classes" class="p-1 text-gray-500 hover:text-gray-700" title="Réinitialiser">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                            <button type="submit" class="ml-2 p-1 text-blue-600 hover:text-blue-800">
+                                <i class="ri-search-line text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Bouton d'action -->
+                <a href="?controller=rp&page=classes&showModal=true" 
+                   class="w-full md:w-auto flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm">
+                    <i class="ri-add-line mr-2"></i> Nouvelle classe
+                </a>
+            </div>
+
+            <!-- Liste des classes sous forme de cartes -->
+            <?php if (empty($classe)): ?>
+                <div class="bg-blue-50 border border-blue-100 rounded-lg p-8 text-center">
+                    <i class="ri-information-line text-4xl text-blue-500 mb-3"></i>
+                    <p class="text-blue-800 font-medium">Aucune classe trouvée</p>
+                    <p class="text-blue-600 text-sm mt-1">Commencez par créer une nouvelle classe</p>
+                </div>
+            <?php else: ?>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <?php foreach ($classe as $class): ?>
+                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="p-5">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800"><?= htmlspecialchars($class['libelle']) ?></h3>
+                                    <p class="text-sm text-gray-500 mt-1">
+                                        <span class="font-medium"><?= htmlspecialchars($class['filiere']) ?></span> - 
+                                        <span><?= htmlspecialchars($class['niveau']) ?></span>
+                                    </p>
+                                </div>
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                            </div>
+                        
+                            <div class="mt-4 pt-4 border-t border-gray-100 flex justify-end space-x-2">
+                                <a href="#" class="mr-24 mt-2">
+                                <i class="ri-eye-line text-blue-600"></i>Voir plus</a>
+                                <a href="?controller=rp&page=classes&action=edit&id=<?= $class['id'] ?>" 
+                                   class="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                                   title="Modifier">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                                <a href="?controller=rp&page=classes&action=delete&id=<?= $class['id'] ?>" 
+                                   class="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                                   title="Supprimer" 
+                                   onclick="return confirm('Voulez-vous vraiment supprimer cette classe ?')">
+                                    <i class="ri-delete-bin-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Pagination améliorée -->
+            <!-- <?php if (!empty($classe) && $totalPages > 1): ?>
+            <div class="mt-8 flex items-center justify-between">
+                <div class="text-sm text-gray-500">
+                    Page <?= $currentPage ?> sur <?= $totalPages ?>
+                </div>
+                <nav class="flex space-x-1">
+                    <?php if ($currentPage > 1): ?>
+                        <a href="?page=classes&p=<?= $currentPage - 1 ?>" 
+                           class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            &laquo; Précédent
+                        </a>
+                    <?php endif; ?>
+                    
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <a href="?page=classes&p=<?= $i ?>" 
+                           class="px-3 py-1 border <?= ($i === $currentPage) ? 'bg-blue-50 border-blue-200 text-blue-600' : 'border-gray-300 hover:bg-gray-50' ?> rounded-md transition-colors">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                    
+                    <?php if ($currentPage < $totalPages): ?>
+                        <a href="?page=classes&p=<?= $currentPage + 1 ?>" 
+                           class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            Suivant &raquo;
+                        </a>
+                    <?php endif; ?>
+                </nav>
+            </div>
+            <?php endif; ?> -->
+        </div>
     </div>
-    
-    <button type="submit" class="bg-green-700 hover:bg-green-800 w-12 rounded text-white p-2 flex items-center justify-center transition-colors">
-    <i class="ri-search-line"></i>
-    </button>
-    
-    <?php if (!empty($searchTerm)): ?>
-        <a href="?controller=rp&page=classes" class="bg-gray-200 hover:bg-gray-300 w-12 rounded text-gray-700 p-2 flex items-center justify-center transition-colors" title="Réinitialiser">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-            </svg>
-        </a>
-    <?php endif; ?>
-</form>
+
+    <!-- Modal d'ajout (amélioré) -->
+    <!-- <?php if ((isset($_GET['showModal']) && $_GET['showModal'] === 'true') || (isset($_GET['action']) && $_GET['action'] === 'edit')): ?>    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"> -->
+        <?php if ($showModal): ?>
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-xl w-full max-w-md overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-200 to-gray-200 px-6 py-4">
+            <h3 class="text-lg font-bold text-gray-700 text-center">
+                <?= !empty($classeToEdit) ? 'Modifier la classe' : 'Ajouter une classe' ?>
+            </h3>
+        </div>
+        
+        <form method="post" action="?controller=rp&page=classes" class="p-6">
+            <div class="bg-gray-00 rounded-2xl p-6 border border-gray-700/30">
+                <!-- Champ caché pour l'ID en cas de modification -->
+                <?php if (!empty($classeToEdit)): ?>
+                    <input type="hidden" name="id" value="<?= $classeToEdit['id'] ?>">
+                <?php endif; ?>
+                
+                <!-- Nom de la classe -->
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-gray-800 flex items-center gap-2">
+                        <i class="ri-building-2-line text-[#b31822]"></i>
+                        Nom de la classe
+                    </label>
+                    <input 
+                        type="text"
+                        class="w-full px-4 py-3 bg-gray-300/30 border-2 border-gray-600 rounded-xl text-gray-500
+                            focus:outline-none focus:border-orange-600 focus:ring-orange-600/30
+                            placeholder-gray-500 transition-all"
+                        placeholder="Ex: B1 Développement"
+                        name="libelle"
+                        value="<?= !empty($classeToEdit) ? htmlspecialchars($classeToEdit['libelle']) : '' ?>"
+                        required
+                    >
                 </div>
 
-                <button class="btn w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300 text-center" onclick="my_modal_1.showModal()">
-                    + Nouveau
+                <!-- Filière et Niveau -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div class="space-y-2">
+        <label class="text-sm font-medium text-gray-800 flex items-center gap-2">
+            <i class="ri-flow-chart text-[#b31822]"></i>
+            Filière
+        </label>
+       <select name="filliere"
+        class="w-full px-4 py-3 bg-gray-300/30 border-2 border-gray-600 rounded-xl text-gray-500  
+               focus:outline-none focus:border-orange-600 focus:ring-orange-600/30
+               appearance-none transition-all">
+    <option value="">Sélectionnez une filière</option>
+    
+    <?php foreach(getAllFilieres() as $filiere): ?>
+            <option value="<?= $filiere['id'] ?>" 
+                <?= (!empty($classeToEdit) && $classeToEdit['filiere_id'] == $filiere['id']) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($filiere['libelle']) ?>
+            </option>
+    <?php endforeach; ?>
+</select>
+    </div>
+
+    <div class="space-y-2">
+        <label class="text-sm font-medium text-gray-800 flex items-center gap-2">
+            <i class="ri-stack-line text-[#b31822]"></i>
+            Niveau
+        </label>
+        <select name="niveau"
+                class="w-full px-4 py-3 bg-gray-300/30 border-2 border-gray-600 rounded-xl text-gray-500 
+                    focus:outline-none focus:border-orange-600 focus:ring-orange-600/30
+                    appearance-none transition-all">
+            <option value="">Sélectionnez un niveau</option>
+            <?php foreach(getAllNiveaux() as $niveau): ?>
+            <option value="<?= $niveau['id'] ?>" 
+                <?= (!empty($classeToEdit) && $classeToEdit['niveau_id'] == $niveau['id']) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($niveau['libelle']) ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+
+            <div class="mt-6 flex justify-end space-x-3">
+                <a href="?controller=rp&page=classes" 
+                   class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    Annuler
+                </a>
+                <button type="submit" 
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+                    <?= !empty($classeToEdit) ? 'Mettre à jour' : 'Enregistrer' ?>
                 </button>
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php if (empty($classe)): ?>
-                    <p class="text-center col-span-3 text-gray-500">Aucune classe trouvée.</p>
-                <?php else: ?>
-                    
-                    <?php foreach ($classe as $class): ?>
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-    <!-- En-tête avec fond coloré -->
-    <div class="bg-white rounded-2xl  border border-gray-200 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1)] overflow-hidden group transition-all duration-300 hover:shadow-[0_15px_30px_-5px_rgba(0,0,0,0.15)]">
-    <!-- Badge statut -->
-    <div class="absolute top-4 right-4 z-10">
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-            <span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            Active
-        </span>
-    </div>
-
-    <!-- Visual header -->
-    <div class="relative flex items-end">
-        <div class="absolute inset-0 bg-[url('https://patternico.com/patterns/svg/pattern-1.svg')] opacity-10"></div>
-        <div class="relative p-4 w-full">
-            <h3 class="text-xl font-bold text-gray-600 drop-shadow-md"><?= htmlspecialchars($class['libelle']) ?></h3>
-            <p class="text-blue-300 text-sm font-medium">ID: <?= htmlspecialchars($class['id']) ?></p>
-        </div>
-    </div>
-
-    <!-- Corps -->
-    <div class="p-5">
-        <!-- Meta données -->
-        <div class="grid grid-cols-2 gap-4 mb-5 ">
-            <div class="space-y-1 ">
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Filière</p>
-                <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                    </svg>
-                    <p class="text-gray-700 font-medium"><?= htmlspecialchars($class['filiere']) ?></p>
-                </div>
-            </div>
-
-            <div class="space-y-1">
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Niveau</p>
-                <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <p class="text-gray-700 font-medium"><?= htmlspecialchars($class['niveau']) ?></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Progress bar -->
-        <div class="mb-6">
-            <div class="flex justify-between text-xs text-gray-500 mb-1">
-                <span>Capacité</span>
-                <span>25/30</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class=" bg-gradient-to-br from-green-600 to-red-500 h-2 rounded-full" style="width: 83%"></div>
-            </div>
-        </div>
-
-        <div class="flex justify-between border-t border-gray-300 pt-4">
-            <button class="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-                Détails
-            </button>
-            
-            <div class="flex space-x-3">
-                <a href="edit.php?id=<?= $class['id'] ?>" class="p-2 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors" title="Modifier">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                    </svg>
-                </a>
-                <a href="?controller=rp&page=classes&action=delete&id=<?= $class['id'] ?>" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors" title="Supprimer" onclick="return confirm('Voulez vous supprimer cette classe ?')">
-                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                   </svg>
-                </a>
-
-            </div>
-        </div>
+        </form>
     </div>
 </div>
-</div>
-                    <?php endforeach; ?>
-
-                <?php endif; ?>
-            </div>
-
-            <div class="flex justify-center mt-6">
-    <nav class="flex space-x-2">
-        <?php if ($currentPage > 1): ?>
-            <a href="?page=classes&p=<?= $currentPage - 1 ?>" class="px-3 py-1 bg-gray-300 hover:bg-blue-500 text-gray-700 rounded-md">&laquo;</a>
-        <?php endif; ?>
-
-        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a href="?page=classes&p=<?= $i ?>" class="px-3 py-1 <?= ($i === $currentPage) ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700' ?> hover:bg-blue-500 rounded-md">
-                <?= $i ?>
-            </a>
-        <?php endfor; ?>
-
-        <?php if ($currentPage < $totalPages): ?>
-            <a href="?page=classes&p=<?= $currentPage + 1 ?>" class="px-3 py-1 bg-gray-300 hover:bg-blue-500 text-gray-700 rounded-md">&raquo;</a>
-        <?php endif; ?>
-    </nav>
-</div>
-
-
-        </div>
-
-
-
-<!-- Open the modal using ID.showModal() method -->
-<dialog id="my_modal_1" class="modal">
-  <div class="modal-box">
-    <h3 class="text-lg font-bold text-center">Ajouter une classe</h3>
-    <p class="py-4">Press ESC key or click the button below to close</p>
-    <div class="modal-action">
-      <form method="dialog">
-      <div>
-            <label for="libelle" class="block text-sm font-medium text-gray-700 mb-1">Libellé de la classe</label>
-            <input type="text" id="libelle" name="libelle" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                   placeholder="Ex: 1ère Année" required>
-        </div>
-
-        <!-- Sélection de la filière -->
-        <div>
-            <label for="filiere_id" class="block text-sm font-medium text-gray-700 mb-1">Filière</label>
-            <select id="filiere_id" name="filiere_id" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                <option value="">Sélectionnez une filière</option>
-                <?php foreach ($filieres as $filiere): ?>
-                    <option value="<?= $filiere['id'] ?>"><?= htmlspecialchars($filiere['libelle']) ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
-        <!-- Sélection du niveau -->
-        <div>
-            <label for="niveau" class="block text-sm font-medium text-gray-700 mb-1">Niveau</label>
-            <select id="niveau" name="niveau" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                <option value="">Sélectionnez un niveau</option>
-                <option value="1">1ère Année</option>
-                <option value="2">2ème Année</option>
-                <option value="3">3ème Année</option>
-                <option value="4">4ème Année</option>
-                <option value="5">5ème Année</option>
-            </select>
-        </div>
-        <div class="flex justify">
-           <button class="btn">Annuler</button>
-           <button class="btn">Valider</button>
-        </div>
-      </form>
+<?php endif; ?>
     </div>
-  </div>
-</dialog>
-
-
-
-
-
-    </main>
-
+<?php endif; ?>
+</main>

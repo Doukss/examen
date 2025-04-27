@@ -2,7 +2,7 @@
     <div class="w-full max-w-6xl p-8 bg-white rounded-xl shadow-sm border border-gray-100">
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-2xl font-semibold text-gray-800">Tableau de Bord</h1>
-            <div class="text-sm text-gray-500">Mis à jour à <?= date('H:i') ?></div>
+            <div class="text-sm text-gray-500"> <?= date('d/m/Y') ?></div>
         </div>
         
         <!-- Cartes de statistiques -->

@@ -88,3 +88,22 @@ function getUser()
 {
     return $_SESSION["user"];
 }
+
+function validateClasseData(array $data): array
+{
+    $errors = [];
+    
+    if (empty($data['libelle'])) {
+        $errors['libelle'] = "Le nom de la classe est requis";
+    }
+    
+    if (empty($data['filliere'])) {
+        $errors['filliere'] = "La filière est requise";
+    }
+    
+    if (empty($data['niveau'])) {
+        $errors['niveau'] = "Le niveau est requis";
+    }
+    
+    return $errors;
+}

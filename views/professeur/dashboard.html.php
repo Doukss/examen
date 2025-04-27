@@ -1,4 +1,4 @@
-<h1>Bonjour Etudiants</h1>
+<h1>Espace professeur</h1>
 <a href="<?= WEBROOT ?>?controllers=security&page=deconnexion">
     <button
         class="px-2 py-2 hover:bg-gray-200 hover:rounded-3xl font-medium rounded w-full">

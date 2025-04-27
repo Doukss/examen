@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
 <main class="bg-gray-50 min-h-screen p-6">
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-8">
@@ -116,4 +126,21 @@
             </div>
         </div>
     </div>
+    <nav class="flex space-x-2">
+        <?php if ($currentPage > 1): ?>
+            <a href="?page=classes&p=<?= $currentPage - 1 ?>" class="px-3 py-1 bg-gray-300 hover:bg-blue-500 text-gray-700 rounded-md">&laquo;</a>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?page=classes&p=<?= $i ?>" class="px-3 py-1 <?= ($i === $currentPage) ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700' ?> hover:bg-blue-500 rounded-md">
+                <?= $i ?>
+            </a>
+        <?php endfor; ?>
+
+        <?php if ($currentPage < $totalPages): ?>
+            <a href="?page=classes&p=<?= $currentPage + 1 ?>" class="px-3 py-1 bg-gray-300 hover:bg-blue-500 text-gray-700 rounded-md">&raquo;</a>
+        <?php endif; ?>
+    </nav>
 </main>
+</body>
+</html>

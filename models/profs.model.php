@@ -27,8 +27,6 @@ function getAllProfesseurs(int $limit = 6, int $offset = 0) {
     }
 }
 
-
-
 function countProfesseurs() {
     $pdo = connectDB();
     
@@ -39,5 +37,25 @@ function countProfesseurs() {
     } catch (PDOException $e) {
         error_log("Erreur dans countProfesseurs: " . $e->getMessage());
         return 0;
+    }
+}
+
+function saveProfs(array $data, ?int $id_professeur = null): array
+{
+    try {
+        return $id_professeur
+            ? updateProfesseur($cleanData, $id_professeur)
+            : createProfesseur($data);
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => "Erreur technique: " . $e->getMessage()];
+    }
+}
+
+function deleteProfesseur($id) {
+    $sql = "DELETE FROM cours WHERE professeur_id = ?";
+    $isdelete = executeQuery($sql,[$id]);
+    if ($isdelete) {
+        $sql1= "DELETE FROM professeur WHERE id = ?";
+        return executeQuery($sql1,[$id]);
     }
 }

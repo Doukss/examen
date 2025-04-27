@@ -1,94 +1,199 @@
-
-    <main class="p-6">
-        <div class="shadow-md border border-gray-200 p-4 rounded-md mb-6">
-            <h1 class="text-3xl font-bold text-gray-700 text-center mb-6">LISTE DES ENSEIGNANTS</h1>
-
-            <!-- Barre de recherche -->
-            <form method="get" action="?page=enseignants" class="flex gap-2 w-64 mb-6">
-                <input type="hidden" name="page" value="enseignants">
-                <div class="relative flex-grow">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <input 
-                        type="text" 
-                        name="search"
-                        value="<?= htmlspecialchars($searchTerm) ?>"
-                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                        placeholder="Rechercher par nom, spécialité">
+<main class="p-4 md:p-6 bg-gray-50 min-h-screen">
+    <!-- Carte principale -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <!-- En-tête -->
+        <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-800">Liste des enseignants</h1>
+                    <p class="text-sm text-gray-500">Gestion du corps enseignant</p>
                 </div>
-                <button type="submit" class="bg-blue-700 hover:bg-blue-800 w-12 rounded text-white p-2 flex items-center justify-center transition-colors">
-                    <i class="ri-search-line"></i>
-                </button>
-                <?php if (!empty($searchTerm)): ?>
-                    <a href="?page=enseignants" class="bg-gray-200 hover:bg-gray-300 w-12 rounded text-gray-700 p-2 flex items-center justify-center transition-colors" title="Réinitialiser">
-                        <i class="ri-close-line"></i>
-                    </a>
-                <?php endif; ?>
-            </form>
-
-            
-            <!-- Liste des enseignants -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php if (empty($professeur)): ?>
-                    <p class="text-center col-span-3 text-gray-500">Aucun enseignant trouvé.</p>
-                <?php else: ?>
-                    <?php foreach ($professeur as $enseignant): ?>
-                        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                            <div class="relative  h-24 b flex items-end">
-                                <div class="relative p-4 w-full">
-                                <h3 class="text-xl font-bold text-gray-600"><?= htmlspecialchars($enseignant['nom']) ?> <?= htmlspecialchars($enseignant['prenom']) ?></h3>
-                                </div>
-                                <div class=" w-14 h-14 rounded">
-                                <i class="ri-user-2-fill text-4xl text-gray-500"></i>
-                                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <!-- Barre de recherche -->
+                    <form method="get" action="?page=professeur" class="relative flex-1 min-w-[200px]">
+                        <input type="hidden" name="page" value="enseignants">
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                name="search"
+                                value="<?= htmlspecialchars($searchTerm) ?>"
+                                class="w-full pl-10 pr-10 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                                placeholder="Rechercher...">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="ri-search-line text-gray-400"></i>
                             </div>
-                            <div class="p-5">
-                                <p class="text-gray-500 font-medium">Spécialité : <?= htmlspecialchars($enseignant['specialite']) ?></p>
-                                <p class="text-gray-500 font-medium">Grade : <?= htmlspecialchars($enseignant['grade']) ?></p>
-                                <div class="flex justify-between border-t border-gray-300 pt-4">
-            <button class="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-                Détails
-            </button>
-            
-            <div class="flex space-x-3">
-                <a href="edit.php?id=<?= $class['id'] ?>" class="p-2 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors" title="Modifier">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                    </svg>
-                </a>
-                <a href="delete.php?id=<?= $class['id'] ?>" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors" title="Supprimer" onclick="return confirm('Supprimer cette classe ?')">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                </a>
+                            <?php if (!empty($searchTerm)): ?>
+                                <a href="?page=professeur" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                                    <i class="ri-close-line"></i>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </form>
+                    
+                    <!-- Bouton Nouveau -->
+                    <a href="?controller=rp&page=professeurs&showModal=true" 
+                       class="w-full md:w-auto flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-sm">
+                        <i class="ri-add-line mr-2"></i> Nouveau prof
+                    </a>
+                </div>
             </div>
         </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-
-            <!-- Pagination -->
-            <div class="flex justify-center mt-6">
-                <nav class="flex space-x-2">
-                    <?php if ($currentPage > 1): ?>
-                        <a href="?page=enseignants&p=<?= $currentPage - 1 ?>" class="px-3 py-1 bg-gray-300 hover:bg-blue-500 text-gray-700 rounded-md">&laquo;</a>
+        
+        <!-- Contenu -->
+        <div class="p-4 md:p-6">
+            <?php if (empty($professeur)): ?>
+                <!-- État vide -->
+                <div class="text-center py-12">
+                    <i class="ri-user-search-line text-4xl text-gray-300 mb-3"></i>
+                    <h3 class="text-gray-500 font-medium">Aucun enseignant trouvé</h3>
+                    <p class="text-gray-400 text-sm mt-1"><?= empty($searchTerm) ? 'Commencez par ajouter un enseignant' : 'Aucun résultat pour votre recherche' ?></p>
+                    <?php if (empty($searchTerm)): ?>
+                        <a href="?controller=rp&page=professeurs&showModal=true" 
+                           class="inline-flex items-center mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="ri-user-add-line mr-1"></i> Ajouter un enseignant
+                        </a>
                     <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <!-- Tableau des enseignants -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom complet</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Spécialité</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade</th>
+                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <?php foreach ($professeur as $enseignant): ?>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                                            <i class="ri-user-3-line"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($enseignant['prenom']) ?> <?= htmlspecialchars($enseignant['nom']) ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900"><?= htmlspecialchars($enseignant['specialite']) ?></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                        <?= htmlspecialchars($enseignant['grade']) ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex justify-end space-x-2">
+                                        <a href="" class="text-blue-600 hover:text-blue-900 mr-3">
+                                            <i class="ri-edit-line"></i>
+                                        </a>
+                                        <a href="?controller=rp&page=professeurs&action=delete&id=<?=$enseignant['id'] ?>" class="text-red-600 hover:text-red-900"
+                                           onclick="return confirm('Voulez-vous vraiment supprimer cet enseignant ?')">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+            
+            <!-- Pagination -->
+            <?php if (!empty($professeur) && $totalPages > 1): ?>
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 pt-4">
+                <div class="text-sm text-gray-500 mb-4 sm:mb-0">
+                    Affichage de <span class="font-medium"><?= count($professeur) ?></span> enseignants
+                </div>
+                <nav class="flex items-center space-x-1">
+                    <?php if ($currentPage > 1): ?>
+                        <a href="?page=enseignants&p=<?= $currentPage - 1 ?>" 
+                           class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            <i class="ri-arrow-left-line"></i>
+                        </a>
+                    <?php endif; ?>
+                    
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <a href="?page=enseignants&p=<?= $i ?>" class="px-3 py-1 <?= ($i === $currentPage) ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700' ?> hover:bg-blue-500 rounded-md"><?= $i ?></a>
+                        <a href="?page=enseignants&p=<?= $i ?>" 
+                           class="px-3 py-1 border <?= ($i === $currentPage) ? 'bg-blue-50 border-blue-200 text-blue-600' : 'border-gray-300 hover:bg-gray-50' ?> rounded-md transition-colors">
+                            <?= $i ?>
+                        </a>
                     <?php endfor; ?>
+                    
                     <?php if ($currentPage < $totalPages): ?>
-                        <a href="?page=enseignants&p=<?= $currentPage + 1 ?>" class="px-3 py-1 bg-gray-300 hover:bg-blue-500 text-gray-700 rounded-md">&raquo;</a>
+                        <a href="?page=enseignants&p=<?= $currentPage + 1 ?>" 
+                           class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
                     <?php endif; ?>
                 </nav>
             </div>
+            <?php endif; ?>
         </div>
-    </main>
+    </div>
+
+    <!-- Modal d'ajout -->
+    <?php if (isset($_GET['showModal']) && $_GET['showModal'] === 'true'): ?>
+    <div class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+                <h3 class="text-lg font-semibold text-gray-800">Ajouter un enseignant</h3>
+            </div>
+            
+            <form method="post" action="?page=professeur&action=add" class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label for="nom" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                        <input type="text" id="nom" name="nom" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="prenom" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+                        <input type="text" id="prenom" name="prenom" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="specialite" class="block text-sm font-medium text-gray-700 mb-1">Spécialité</label>
+                        <input type="text" id="specialite" name="specialite" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="grade" class="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+                        <select id="grade" name="grade" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                            <option value="">Sélectionnez un grade</option>
+                            <?php foreach(getAllGrade() as $niveau): ?>
+                                <option value="<?= $niveau['id'] ?>" <?= (isset($classe['niveau_id']) && $classe['niveau_id'] == $niveau['id']) ? 'selected' : '' ?>><?= htmlspecialchars($niveau['libelle']) ?></option>
+                                <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-3">
+                    <a href="?controller=rp&page=professeurs" 
+                       class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Annuler
+                    </a>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
+</main>
